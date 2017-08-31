@@ -1,0 +1,74 @@
+From d9abd4c175bd92df2b4c00919d6181d4a0b7c259 Mon Sep 17 00:00:00 2001
+From: Levente Kurusa <levex@linux.com>
+Date: Sat, 14 Jan 2017 21:27:34 +0000
+Subject: [PATCH 3/5] macOS: pintos: fix host CPU timeout bug on mac
+
+Signed-off-by: Levente Kurusa <levex@linux.com>
+---
+ src/utils/pintos | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/src/utils/pintos b/src/utils/pintos
+index fe668ac..00d4571 100755
+--- a/src/utils/pintos
++++ b/src/utils/pintos
+@@ -851,7 +851,7 @@ sub xsystem {
+ 	alarm (0);
+ 	&$cleanup ();
+ 
+-	if (WIFSIGNALED ($?) && WTERMSIG ($?) == SIGVTALRM ()) {
++	if (WIFSIGNALED ($?) && WTERMSIG ($?) == SIGVTALRM2 ()) {
+ 	    seek (STDOUT, 0, 2);
+ 	    print "\nTIMEOUT after $timeout seconds of host CPU time\n";
+ 	    exit 0;
+@@ -899,30 +899,35 @@ sub timeout {
+ # Returns the system load average over the last minute.
+ # If the load average is less than 1.0 or cannot be determined, returns 1.0.
+ sub get_load_average {
+-    my ($avg) = `uptime` =~ /load average:\s*([^,]+),/;
++    my $avg;
++    if ($^O == 'darwin') {
++	$avg = (split /\s/, `uptime`)[11];
++    } else {
++        $avg = `uptime` =~ /load average:\s*([^,]+),/;
++    }
+     return $avg >= 1.0 ? $avg : 1.0;
+ }
+ 
+ # Calls setitimer to set a timeout, then execs what was passed to us.
+ sub exec_setitimer {
+     if (defined $timeout) {
+-	if ($ ge 5.8.0) {
+-	    eval "
+-              use Time::HiRes qw(setitimer ITIMER_VIRTUAL);
+-              setitimer (ITIMER_VIRTUAL, $timeout, 0);
++        if ($^V ge 5.8.0 && $^O != 'darwin') {
++            eval "
++            use Time::HiRes qw(setitimer ITIMER_VIRTUAL);
++            setitimer (ITIMER_VIRTUAL, $timeout, 0);
+             ";
+-	} else {
+-	    { exec ("setitimer-helper", $timeout, @_); };
+-	    exit 1 if !$!{ENOENT};
+-	    print STDERR "warning: setitimer-helper is not installed, so ",
+-	      "CPU time limit will not be enforced\n";
+-	}
++        } else {
++            { exec ("setitimer-helper", $timeout, @_); };
++            exit 1 if !$!{ENOENT};
++            print STDERR "warning: setitimer-helper is not installed, so ",
++            "CPU time limit will not be enforced\n";
++        }
+     }
+     exec (@_);
+     exit (1);
+ }
+ 
+-sub SIGVTALRM {
++sub SIGVTALRM2 {
+     use Config;
+     my $i = 0;
+     foreach my $name (split(' ', $Config{sig_name})) {
+-- 
+2.10.2
+

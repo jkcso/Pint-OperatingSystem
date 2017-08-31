@@ -1,0 +1,26 @@
+From 177056844a49e6eaad8026b1a7abd0b7cbccb2a3 Mon Sep 17 00:00:00 2001
+From: Levente Kurusa <levex@linux.com>
+Date: Sat, 14 Jan 2017 21:28:05 +0000
+Subject: [PATCH 5/5] macOS: tests: make find POSIX-compliant
+
+Signed-off-by: Levente Kurusa <levex@linux.com>
+---
+ tests/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/Makefile b/tests/Makefile
+index f8542e8..43b3e61 100644
+--- a/tests/Makefile
++++ b/tests/Makefile
+@@ -34,7 +34,7 @@ endef
+ 
+ define test-clean
+ cd $@/src/$(TASK)/build && $(MAKE) clean
+-cd $@/src/$(TASK)/build && set `find -type f` > /dev/null && test $$# = 1
++cd $@/src/$(TASK)/build && set `find . -type f` > /dev/null && test $$# = 1
+ endef
+ 
+ define clean
+-- 
+2.10.2
+

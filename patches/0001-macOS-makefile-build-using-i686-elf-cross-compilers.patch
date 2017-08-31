@@ -1,0 +1,50 @@
+From 750fff76c1c12b4bc0fbdfbc3ab41d49c80e38f0 Mon Sep 17 00:00:00 2001
+From: Levente Kurusa <levex@linux.com>
+Date: Sat, 14 Jan 2017 21:26:55 +0000
+Subject: [PATCH 1/5] macOS: makefile: build using i686-elf cross compilers
+
+Signed-off-by: Levente Kurusa <levex@linux.com>
+---
+ src/Make.config       | 12 ++++++++++++
+ src/Makefile.userprog |  2 +-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/src/Make.config b/src/Make.config
+index c920198..5e6ef4a 100644
+--- a/src/Make.config
++++ b/src/Make.config
+@@ -26,6 +26,18 @@ else
+   endif
+ endif
+ 
++# by default randomizing static libraries can be done using the host compiler
++RANLIB = ranlib
++
++# macOS: force compiling with the i686-elf cross compiler suite
++UNAME_S = $(shell uname -s)
++ifeq ($(UNAME_S),Darwin)
++  CC = i686-elf-gcc
++  LD = i686-elf-ld
++  OBJCOPY = i686-elf-objcopy
++  RANLIB = i686-elf-ranlib
++endif
++
+ ifeq ($(strip $(shell command -v $(CC) 2> /dev/null)),)
+ $(warning *** Compiler ($(CC)) not found.  Did you set $$PATH properly?  Please refer to the Getting Started section in the documentation for details. ***)
+ endif
+diff --git a/src/Makefile.userprog b/src/Makefile.userprog
+index 0df391a..d8e79ba 100644
+--- a/src/Makefile.userprog
++++ b/src/Makefile.userprog
+@@ -41,7 +41,7 @@ $(foreach prog,$(PROGS),$(eval $(call TEMPLATE,$(prog))))
+ libc.a: $(LIB_OBJ)
+ 	rm -f $@
+ 	ar r $@ $^
+-	ranlib $@
++	$(RANLIB) $@
+ 
+ clean::
+ 	rm -f $(PROGS) $(PROGS_OBJ) $(PROGS_DEP)
+-- 
+2.10.2
+

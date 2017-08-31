@@ -1,0 +1,8 @@
+#!/bin/sh
+# encoding: utf-8
+args="$@"
+make
+pintos -f -q
+pintos -p build/tests/userprog/$1 -a $1 -- -q
+pintos -q run $args
+

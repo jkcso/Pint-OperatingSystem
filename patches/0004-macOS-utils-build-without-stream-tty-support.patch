@@ -1,0 +1,54 @@
+From bcbff720c7902b572130a36b2110a1498b09a95a Mon Sep 17 00:00:00 2001
+From: Levente Kurusa <levex@linux.com>
+Date: Sat, 14 Jan 2017 21:27:51 +0000
+Subject: [PATCH 4/5] macOS: utils: build without stream tty support
+
+Signed-off-by: Levente Kurusa <levex@linux.com>
+---
+ src/utils/squish-pty.c  | 5 +++--
+ src/utils/squish-unix.c | 1 -
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/utils/squish-pty.c b/src/utils/squish-pty.c
+index c8375a5..6ebdce6 100644
+--- a/src/utils/squish-pty.c
++++ b/src/utils/squish-pty.c
+@@ -7,7 +7,6 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <stropts.h>
+ #include <sys/ioctl.h>
+ #include <sys/stat.h>
+ #include <sys/time.h>
+@@ -289,12 +288,14 @@ main (int argc __attribute__ ((unused)), char *argv[])
+ 
+   /* System V implementations need STREAMS configuration for the
+      slave. */
+-  if (isastream (slave))
++  /* macOS: stream ttys don't exist, no need to check */
++  /*if (isastream (slave))
+     {
+       if (ioctl (slave, I_PUSH, "ptem") < 0
+           || ioctl (slave, I_PUSH, "ldterm") < 0)
+         fail_io ("ioctl");
+     }
++  */
+ 
+   /* Arrange to get notified when a child dies, by writing a byte
+      to a pipe fd.  We really want to use pselect() and
+diff --git a/src/utils/squish-unix.c b/src/utils/squish-unix.c
+index 805205b..b94bb40 100644
+--- a/src/utils/squish-unix.c
++++ b/src/utils/squish-unix.c
+@@ -8,7 +8,6 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <stropts.h>
+ #include <sys/ioctl.h>
+ #include <sys/stat.h>
+ #include <sys/time.h>
+-- 
+2.10.2
+
