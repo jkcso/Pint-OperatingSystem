@@ -6,7 +6,7 @@ PintOS is an operating system framework for the 80x86 architecture. It supports 
 ## Files/Directories explained.
 1. Starting with ‘pintos/src’:
 
-- [aimeos/aimeos-typo3](‘devices/’) - Source code for I/O device interfacing: keyboard, timer, disk, etc. You will modify the timer implementation in task 0. Otherwise you should have no need to change
+- [‘devices/’] - Source code for I/O device interfacing: keyboard, timer, disk, etc. You will modify the timer implementation in task 0. Otherwise you should have no need to change
 
 - [aimeos/aimeos-typo3](‘threads/’) - Source code for the base kernel, responsible for all multi threading in this operating system.
 
