@@ -28,7 +28,7 @@ PintOS is an operating system framework for the 80x86 architecture. It supports 
 
 - ‘misc/’, ‘utils/’ - These files may come in handy if you decide to try working with Pintos on your own machine. Otherwise, you can ignore them.
 
-2. Secondly, moving into ‘pintos/build’ directory we have:
+### 2. Secondly, moving into ‘pintos/build’ directory we have:
 
 - ‘Makefile’ - A copy of ‘pintos/src/Makefile.build’. It describes how to build the kernel.
 
@@ -38,7 +38,7 @@ PintOS is an operating system framework for the 80x86 architecture. It supports 
 	
  - ‘loader.bin’ - Memory image for the kernel loader, a small chunk of code written in assembly language that reads the kernel from disk into memory and starts it up. It is exactly 512 bytes long, a size fixed by the PC BIOS.
 
-3. Moving now into ‘pintos/devices’ directory, we have:
+### 3. Moving now into ‘pintos/devices’ directory, we have:
 
  - ‘timer.c’
  - ‘timer.h’ - System timer that ticks, by default, 100 times per second. You will modify this code
@@ -78,8 +78,7 @@ are organized as arrays of fixed-size blocks. Out of the box, Pintos supports tw
  - ‘pit.c’
  - ‘pit.h’ - Code to configure the 8254 Programmable Interrupt Timer. This code is used by both ‘devices/timer.c’ and ‘devices/speaker.c’ because each device uses one of the PIT’s output channel.
 
-
-4. Moreover, we have ‘pintos/threads’ directory which contains:
+### 4. Moreover, we have ‘pintos/threads’ directory which contains:
 
  - ‘loader.S’
  - ‘loader.h’ - The kernel loader. Assembles to 512 bytes of code and data that the PC BIOS loads into memory and which in turn finds the kernel on disk, loads it into memory, and jumps to start() in ‘start.S’. 
@@ -118,7 +117,7 @@ mization barriers.
  - ‘vaddr.h’
  - ‘pte.h’ - Functions and macros for working with virtual addresses and page table entries.  These will be more important to you in task 3. For now, you can ignore them ‘flags.h’ Macros that define a few bits in the 80x86 “flags” register. Probably of no interest. See [IA32-v1], section 3.4.3, “EFLAGS Register,” for more information.
 
-5. Moving into ‘pintos/lib’ files:
+### 5. Moving into ‘pintos/lib’ files:
 
  - ‘ctype.h’
  - ‘inttypes.h’
@@ -157,8 +156,7 @@ mization barriers.
  - ‘kernel/console.h’
  - ‘kernel/stdio.h’ - Implements printf() and a few other functions.
 
-
-6. Moving into user programs directory we have:
+### 6. Moving into user programs directory we have:
 
  - ‘process.c’
  - ‘process.h’ - Loads ELF binaries and starts processes.
