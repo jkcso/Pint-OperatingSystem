@@ -179,4 +179,4 @@ uses the TSS only for switching stacks when a user process enters an interrupt h
 
 ## License
 1. The copyright of this project belongs to Imperial College London.
-2. From this code I removed some parts on purpose to make it broken.
+2. Certains parts are intentionally removed from the code or they are misleading on purpose to break this repository.
