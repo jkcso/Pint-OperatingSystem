@@ -178,5 +178,7 @@ mization barriers.
 uses the TSS only for switching stacks when a user process enters an interrupt handler, as does Linux.
 
 ## License
-1. The copyright of this project belongs to Imperial College London.
-2. Certains parts are intentionally removed from the code or they are misleading on purpose to break this repository.
+The copyright of this project belongs to Imperial College London.
+
+## Note
+Part of my work is intentionally broken or misleading to avoid disrespectful people from copying and pasting.
