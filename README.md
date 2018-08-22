@@ -180,5 +180,5 @@ uses the TSS only for switching stacks when a user process enters an interrupt h
 ## License
 The copyright of this project belongs to Imperial College London.
 
-### Note
+## Note
 Part of my work is intentionally broken or misleading to avoid disrespectful people from copying and pasting.
